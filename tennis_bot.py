@@ -2,7 +2,7 @@ import os
 import asyncio
 import logging
 from datetime import datetime
-import httpx
+import requests
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from telegram import Bot
 
@@ -63,8 +63,7 @@ def analyze_match(match):
 
 async def fetch_matches():
     url = f"https://api.the-odds-api.com/v4/sports/tennis/odds/?apiKey={ODDS_API_KEY}&regions=eu&markets=h2h&oddsFormat=decimal"
-    async with httpx.AsyncClient(timeout=15) as client:
-        r = await client.get(url)
+    r = requests.get(url, timeout=15)
         r.raise_for_status()
         return r.json()
 
